@@ -18,7 +18,7 @@ VertexArrayObject::~VertexArrayObject()
 	}
 }
 
-void VertexArrayObject::SetIndexBuffer(IndexBuffer* ibo) {
+void VertexArrayObject::SetIndexBuffer(const IndexBuffer::Sptr& ibo) {
 	// TODO: What if we already have a buffer? should we delete it? who owns the buffer?
 	_indexBuffer = ibo;
 	Bind();
@@ -27,7 +27,7 @@ void VertexArrayObject::SetIndexBuffer(IndexBuffer* ibo) {
 	Unbind();
 }
 
-void VertexArrayObject::AddVertexBuffer(VertexBuffer* buffer, const std::vector<BufferAttribute>& attributes)
+void VertexArrayObject::AddVertexBuffer(const VertexBuffer::Sptr& buffer, const std::vector<BufferAttribute>& attributes)
 {
 	// TODO: Who should own this buffer now? Do we delete it when we destroy?
 	VertexBufferBinding binding;

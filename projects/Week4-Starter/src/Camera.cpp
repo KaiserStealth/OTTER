@@ -66,15 +66,29 @@ void Camera::SetOrthoVerticalScale(float value) {
 }
 
 const glm::mat4& Camera::GetViewProjection() const {
-	// TODO: Calculate and return view projection if dirty, otherwise return calculated value
-	return _viewProjection; // delete this
+	if (_isDirty)
+	{
+		_viewProjection = _projection * _view; _isDirty = false;
+	}
+	return _viewProjection;
 }
 
 void Camera::__CalculateProjection()
 {
-	// TODO: Calculate projection matrix
+	if (_isOrtho)
+	{ 
+		float w = (_orthoVerticalScale * _aspectRatio) / 2.0f;
+		float h = (_orthoVerticalScale / 2.0f);
+		_projection = glm::ortho(-w, w, -h, h, _nearPlane, _farPlane);
+	}
+	else
+	{
+		_projection = glm::perspective(_fovRadians, _aspectRatio, _nearPlane, _farPlane);
+	}
+	_isDirty = true;
 }
 
 void Camera::__CalculateView() {
-	// TODO: Calculate view matrix
+	_view = glm::lookAt(_position, _position + _normal, _up);
+	_isDirty = true;
 }
